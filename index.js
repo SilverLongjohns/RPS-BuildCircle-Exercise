@@ -9,7 +9,11 @@ app.get('/', (req, res) => {
 });
 
 app.post('/start', (req, res) => {
-    res.send(game);
+    res.send(game.startGame());
+});
+
+app.get('/score', (req, res) => {
+
 });
 
 app.listen(port);
