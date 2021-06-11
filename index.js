@@ -8,9 +8,9 @@ app.get('/', (req, res) => {
     res.send("Hello world");
 });
 
-// app.post('/start', (req, res) => {
-//     res.send(game);
-// });
+app.post('/start', (req, res) => {
+    res.send(game);
+});
 
 app.listen(port);
 
