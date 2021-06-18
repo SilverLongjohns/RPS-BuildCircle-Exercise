@@ -1,17 +1,14 @@
 const uuid = require('uuid')
-const {saveScore, gameCache} = require('./runningGames')
-
-let gameInstance = {
-
-}
+let gameCache = []
 
 
 
 const startGame = () => {
-    gameInstance = {
+    const gameInstance = {
         id: uuid.v4(),
         score: 0,
     }
+    gameCache.push(gameInstance)
     return gameInstance
 }
 
@@ -34,17 +31,18 @@ const moveGame = (move, id) => {
         ){
         console.log('YOU WIN', move, choices[random]);
         result = 'WIN'
-        gameInstance.score++
+
+        incrementScore(id)
 
     } else {
         console.log('YOU LOSE', move, choices[random]);
         result = 'LOSE'
     }
 
-    saveScore(id, gameInstance.score)
+    let currentGame = gameCache.find(x => x.id === id)
 
     return {
-        ...gameInstance,
+        ...currentGame,
         lastGame: {
             result,
             yourMove: move,
@@ -53,8 +51,25 @@ const moveGame = (move, id) => {
     }
 }
 
+const incrementScore = (id) => {
+    console.log("BEFORE", gameCache)
+    let currentGameIndex = gameCache.findIndex(x => x.id === id)
+    console.log("1", gameCache[currentGameIndex])
+    gameCache[currentGameIndex].score++
+    console.log("2", gameCache[currentGameIndex])
+    console.log("AFTER", gameCache)
+}
+
+const getScore = (id) => {
+    gameCache.forEach(x => {
+        if(x.id === id){
+            return [...gameCache, {id: id, score: x.score}]
+        }
+    })
+}
+
+
 module.exports = {
     startGame,
-    gameInstance,
     moveGame,
 }

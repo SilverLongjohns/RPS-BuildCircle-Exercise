@@ -10,6 +10,12 @@ jest.mock("./game", () => ({
             id: "testId",
             score: 0
         }
+    },
+    moveGame: () => {
+        const gameInstance = {
+            id: "testId",
+            score: 1,
+        }
     }
 }))
 
@@ -26,4 +32,8 @@ describe("When running the app", () => {
         const res = await request.get('/score?id=testId')
         expect(res.body.score).toBe(5)
     });
+    it("should save the id and score to the game cache", async () => {
+        const res = await request.post('/game/testId')
+        expect(res.body.gameInstance.toEqual({id: "testId", score: 0}));
+    })
 });

@@ -1,5 +1,4 @@
 const express = require('express');
-const { saveScore, getScore } = require('./runningGames')
 const game = require("./game");
 const app = express();
 const port = 5001;
@@ -15,17 +14,6 @@ app.post('/start', (req, res) => {
 
 app.get('/start', (req, res) => {
     res.redirect(302, "/game")
-});
-
-app.get('/score/:id', (req, res) => {
-    let params = req.params
-    let id = params.id
-    res.send(getScore(id))
-});
-
-app.get('/game', (req, res) => {
-    res.sendFile(__dirname + '/game.html');
-    const gameId = res.send(gameInstance.id)
 });
 
 app.post('/game/:id/:move', (req, res) => {
