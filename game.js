@@ -1,8 +1,11 @@
 const uuid = require('uuid')
+const {saveScore, gameCache} = require('./runningGames')
 
 let gameInstance = {
 
 }
+
+
 
 const startGame = () => {
     gameInstance = {
@@ -12,7 +15,7 @@ const startGame = () => {
     return gameInstance
 }
 
-const moveGame = (move) => {
+const moveGame = (move, id) => {
     let result
     const choices = ['ROCK', 'PAPER', 'SCISSORS'];
 
@@ -25,8 +28,8 @@ const moveGame = (move) => {
     }
 
     else if(
-        (move === 'PAPER' && choices[random] === 'ROCK') || 
-        (move === 'SCISSORS' && choices[random] === 'PAPER') || 
+        (move === 'PAPER' && choices[random] === 'ROCK') ||
+        (move === 'SCISSORS' && choices[random] === 'PAPER') ||
         (move === 'ROCK' && choices[random] === 'SCISSORS')
         ){
         console.log('YOU WIN', move, choices[random]);
@@ -37,6 +40,9 @@ const moveGame = (move) => {
         console.log('YOU LOSE', move, choices[random]);
         result = 'LOSE'
     }
+
+    saveScore(id, gameInstance.score)
+
     return {
         ...gameInstance,
         lastGame: {

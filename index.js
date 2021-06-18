@@ -1,5 +1,5 @@
 const express = require('express');
-const { gameInstance } = require('./game');
+const { saveScore, getScore } = require('./runningGames')
 const game = require("./game");
 const app = express();
 const port = 5001;
@@ -17,20 +17,23 @@ app.get('/start', (req, res) => {
     res.redirect(302, "/game")
 });
 
-app.get('/score', (req, res) => {
-
+app.get('/score/:id', (req, res) => {
+    let params = req.params
+    let id = params.id
+    res.send(getScore(id))
 });
 
 app.get('/game', (req, res) => {
     res.sendFile(__dirname + '/game.html');
     const gameId = res.send(gameInstance.id)
-    res.send(id);
-    res.send(score);
 });
 
-app.post('/game', (req, res) => {
+app.post('/game/:id/:move', (req, res) => {
     console.log('hello', req.body)
-    res.send(game.moveGame('ROCK'));
+    let params = req.params
+    let move = params.move;
+    let id = params.id
+    res.send(game.moveGame(move, id));
 });
 
 
