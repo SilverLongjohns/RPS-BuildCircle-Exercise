@@ -2,11 +2,16 @@ const express = require('express');
 const supertest = require('supertest')
 const app = require('./index.js');
 const request = supertest(app);
-const uuidGen = require('./uuidGen');
 
 jest.mock('./uuidGen', () => ({
     v4: () => {
         return "testId"
+    }
+}))
+
+jest.mock('./computerPlayer', () => ({
+    move: () => {
+        return "SCISSORS"
     }
 }))
 
@@ -25,7 +30,7 @@ describe("When a new game is started", () => {
     it("Should be able to return a score from the score endpoint", async () => {
         const res = await request.get('/score/testId')
         expect(res.status).toBe(200);
-        expect(res.body).toEqual({ ...res.body, id: "testId", move: 1, })
+        expect(res.body).toEqual({ id: "testId", move: 1, score: 1, difficulty: 'HARD' })
     })
     describe("After 5 moves", () => {
         it("Should let the player use the BOMB choice", async () => {
