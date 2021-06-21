@@ -70,6 +70,7 @@ const getScore = (id) => {
 
 
 module.exports = {
+    getScore,
     startGame,
     moveGame,
 }

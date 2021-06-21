@@ -16,6 +16,12 @@ app.get('/start', (req, res) => {
     res.redirect(302, "/game")
 });
 
+app.get('/score/:id', (req, res) => {
+    let params = req.params
+    let id = params.id
+    res.send(game.getScore());
+});
+
 app.post('/game/:id/:move', (req, res) => {
     console.log('hello', req.body)
     let params = req.params

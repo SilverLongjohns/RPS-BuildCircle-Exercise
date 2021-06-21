@@ -16,14 +16,16 @@ jest.mock("./game", () => ({
             id: "testId",
             score: 1,
         }
+    },
+    getScore: () => {
+        const gameInstance = {
+            id: "testId",
+            score: 5,
+        }
     }
 }))
 
 describe("When running the app", () => {
-    it("Should display expected content on the root", async () => {
-        const res = await request.get('/')
-        expect(res.text).toBe("Hello world")
-    });
     it("Should start a game at /start route", async () => {
         const res = await request.post('/start')
             expect(res.body).toEqual({ id: "testId", score: 0 })
