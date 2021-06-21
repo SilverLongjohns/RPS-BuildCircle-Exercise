@@ -1,73 +1,62 @@
-const uuid = require('uuid')
-let gameCache = []
-
-
+const uuidGen = require('./uuidGen')
+const gameCache = require('./gameCache')
+const computer = require('./computerPlayer')
 
 const startGame = () => {
-    const gameInstance = {
-        id: uuid.v4(),
-        score: 0,
-    }
-    gameCache.push(gameInstance)
-    return gameInstance
+    return gameCache.createGame();
 }
 
 const moveGame = (move, id) => {
     let result
-    const choices = ['ROCK', 'PAPER', 'SCISSORS'];
-    let currentGame = gameCache.find(x => x.id === id)
+    let currentGame = gameCache.getGame(id)
 
-    const random = Math.floor(Math.random() * choices.length);
-    console.log(random)
+    const computerMove = computer.move()
 
-    if(move === choices[random]) {
-        console.log('DRAW', move, choices[random]);
+    if(move === computerMove) {
+        console.log('DRAW', move, computerMove);
         result = 'DRAW'
     }
 
-    else if(
-        (move === 'PAPER' && choices[random] === 'ROCK') ||
-        (move === 'SCISSORS' && choices[random] === 'PAPER') ||
-        (move === 'ROCK' && choices[random] === 'SCISSORS')
-        ){
-        console.log('YOU WIN', move, choices[random]);
+    if(move === "BOMB" && currentGame.move < 5) {
+        const message = "Cannot use bomb this early in the game!"
+        return {
+            error: {
+                message,
+            }
+        }
+    } else if (move === "BOMB" && currentGame.move >= 5) {
+        console.log('YOU WIN', move, computerMove);
+        result = 'WIN'
+        currentGame.move = 0;
+        gameCache.incrementScore(id)
+    } else if (
+        (move === 'PAPER' && computerMove === 'ROCK') ||
+        (move === 'SCISSORS' && computerMove === 'PAPER') ||
+        (move === 'ROCK' && computerMove === 'SCISSORS')
+        )
+    {
+        console.log('YOU WIN', move, computerMove);
         result = 'WIN'
 
-        incrementScore(id)
-
+        gameCache.incrementScore(id)
     } else {
-        console.log('YOU LOSE', move, choices[random]);
+        console.log('YOU LOSE', move, computerMove);
         result = 'LOSE'
     }
+
+    gameCache.incrementMove(id)
 
     return {
         ...currentGame,
         lastGame: {
             result,
             yourMove: move,
-            computerMove: choices[random]
-        }
+            computerMove,
+        },
     }
 }
 
-const incrementScore = (id) => {
-    let currentGameIndex = gameCache.findIndex(x => x.id === id)
-    gameCache[currentGameIndex].score++
-}
-
-const getScore = (id) => {
-    let score
-    gameCache.forEach(x => {
-        if(x.id === id){
-            score = x
-        }
-    })
-    return score
-}
-
-
 module.exports = {
-    getScore,
     startGame,
     moveGame,
 }
