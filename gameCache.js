@@ -2,11 +2,12 @@ const uuidGen = require('./uuidGen')
 
 let gameCache = []
 
-const createGame = () => {
+const createGame = (difficulty) => {
     const gameInstance = {
         id: uuidGen.v4(),
         score: 0,
         move: 0,
+        difficulty
     }
     gameCache.push(gameInstance)
     return gameInstance

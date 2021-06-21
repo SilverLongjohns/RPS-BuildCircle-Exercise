@@ -11,11 +11,12 @@ jest.mock('./uuidGen', () => ({
 }))
 
 describe("When a new game is started", () => {
-    it("Should start a game at /start route", async () => {
-        const res = await request.post('/start')
+    it(`Should start a game at /start route with difficulty`, async () => {
+        const res = await request.post('/start/HARD')
         expect(res.status).toBe(200);
-        expect(res.body).toEqual({ id: "testId", score: 0, move: 0, })
+        expect(res.body).toEqual({ id: "testId", score: 0, move: 0, difficulty: 'HARD' })
     });
+
     it("Should be able to make a move", async () => {
         const res = await request.post('/game/testId/ROCK')
         expect(res.status).toBe(200);

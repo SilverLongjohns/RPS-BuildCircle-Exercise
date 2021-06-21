@@ -2,15 +2,15 @@ const uuidGen = require('./uuidGen')
 const gameCache = require('./gameCache')
 const computer = require('./computerPlayer')
 
-const startGame = () => {
-    return gameCache.createGame();
+const startGame = (difficulty) => {
+    return gameCache.createGame(difficulty);
 }
 
 const moveGame = (move, id) => {
     let result
     let currentGame = gameCache.getGame(id)
 
-    const computerMove = computer.move()
+    const computerMove = computer.move(currentGame.difficulty, move)
 
     if(move === computerMove) {
         console.log('DRAW', move, computerMove);

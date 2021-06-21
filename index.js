@@ -9,8 +9,10 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
 
-app.post('/start', (req, res) => {
-    res.send(game.startGame());
+app.post('/start/:difficulty', (req, res) => {
+    let params = req.params
+    let difficulty = params.difficulty
+    res.send(game.startGame(difficulty));
 })
 
 app.get('/start', (req, res) => {
