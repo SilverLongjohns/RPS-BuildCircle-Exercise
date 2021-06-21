@@ -15,6 +15,7 @@ const startGame = () => {
 const moveGame = (move, id) => {
     let result
     const choices = ['ROCK', 'PAPER', 'SCISSORS'];
+    let currentGame = gameCache.find(x => x.id === id)
 
     const random = Math.floor(Math.random() * choices.length);
     console.log(random)
@@ -39,8 +40,6 @@ const moveGame = (move, id) => {
         result = 'LOSE'
     }
 
-    let currentGame = gameCache.find(x => x.id === id)
-
     return {
         ...currentGame,
         lastGame: {
@@ -52,20 +51,18 @@ const moveGame = (move, id) => {
 }
 
 const incrementScore = (id) => {
-    console.log("BEFORE", gameCache)
     let currentGameIndex = gameCache.findIndex(x => x.id === id)
-    console.log("1", gameCache[currentGameIndex])
     gameCache[currentGameIndex].score++
-    console.log("2", gameCache[currentGameIndex])
-    console.log("AFTER", gameCache)
 }
 
 const getScore = (id) => {
+    let score
     gameCache.forEach(x => {
         if(x.id === id){
-            return [...gameCache, {id: id, score: x.score}]
+            score = x
         }
     })
+    return score
 }
 
 

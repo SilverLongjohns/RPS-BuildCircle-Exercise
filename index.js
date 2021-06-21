@@ -19,7 +19,8 @@ app.get('/start', (req, res) => {
 app.get('/score/:id', (req, res) => {
     let params = req.params
     let id = params.id
-    res.send(game.getScore());
+    res.send(game.getScore(id));
+    console.log(game.getScore(id))
 });
 
 app.post('/game/:id/:move', (req, res) => {
