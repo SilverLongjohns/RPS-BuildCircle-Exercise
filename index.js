@@ -4,11 +4,6 @@ const gameCache = require("./gameCache")
 const app = express();
 const port = 5001;
 
-
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
-});
-
 app.post('/start/:difficulty', (req, res) => {
     let params = req.params
     let difficulty = params.difficulty
@@ -42,5 +37,5 @@ app.post('/game/:id/:move', (req, res) => {
 
 
 app.listen(port);
-
+console.log(`RPS Game started. Listening on port ${port}.`)
 module.exports = app
