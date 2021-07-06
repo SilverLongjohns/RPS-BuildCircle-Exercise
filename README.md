@@ -1,7 +1,7 @@
 # Rock Paper Scissors API
 ## A Build Circle API Project
 
-###How to run:
+### How to run:
 
 - Navigate to the root folder and install dependencies with `npm install`
 - Begin a new game by calling the `/start` endpoint with a difficulty like so: `/start/<EASY, HARD>`
@@ -9,7 +9,7 @@
 - To check your score at any time, use the `/score/<UUID>` endpoint. 
 - The `BOMB` move can be used once 5 moves have been made. Using the bomb move instantly wins the game.
 
-###List of API Endpoints:
+### List of API Endpoints:
 
 | ENDPOINT | PARAMETER(S) |
 | --------- | --------- |
@@ -17,7 +17,7 @@
 | `/score` | `/<UUID>` |
 | `/game` | `/<UUID>/<MOVE>` |
 
-###Example Responses:
+### Example Responses:
 
 
 - `/start/EASY` \
